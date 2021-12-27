@@ -10,15 +10,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProductUpdateRest {
 	
 	@JsonProperty("name")
-	@NotBlank
+	@NotBlank(message = "The field name is a Long required.")
 	private String name;
 
 	@JsonProperty("description")
-	@NotBlank
+	@NotBlank(message = "The field description is a Long required.")
 	private String description;
 
 	@JsonProperty("price")
-	@NotNull
+	@NotNull(message = "The field price is a Long required.")
 	private Long price;
 
 	public String getName() {

@@ -1,5 +1,7 @@
 package com.hulkstore.hulkstoreapi.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hulkstore.hulkstoreapi.exceptions.HulkStoreException;
 import com.hulkstore.hulkstoreapi.jsons.ProductUpdateRest;
+import com.hulkstore.hulkstoreapi.jsons.CompleteProductRest;
 import com.hulkstore.hulkstoreapi.jsons.ProductCreateRest;
 import com.hulkstore.hulkstoreapi.jsons.ProductRest;
 import com.hulkstore.hulkstoreapi.responses.HulkStoreResponse;
@@ -37,17 +40,27 @@ public class ProductController {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "product/complete" + "/{" + "productId"
 			+ "}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HulkStoreResponse<ProductRest> getCompleteProductById(@PathVariable Long productId)
+	public HulkStoreResponse<CompleteProductRest> getCompleteProductById(@PathVariable Long productId)
 			throws HulkStoreException {
 		return new HulkStoreResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
-				productService.getProductByid(productId));
+				productService.getCompleteProductByid(productId));
 	}
-	
+
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "product", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HulkStoreResponse<String> createProduct(@Validated @RequestBody ProductCreateRest productRest) throws HulkStoreException{
+	public HulkStoreResponse<String> createProduct(@Valid @RequestBody ProductCreateRest productRest)
+			throws HulkStoreException {
 		return new HulkStoreResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
 				productService.createProduct(productRest));
 	}
-	
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "product" + "/{" + "productId"
+			+ "}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HulkStoreResponse<String> updateProduct(@PathVariable Long productId,
+			@Valid @RequestBody ProductUpdateRest productRest) throws HulkStoreException {
+		return new HulkStoreResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+				productService.updateProduct(productId, productRest));
+	}
+
 }
